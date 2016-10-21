@@ -5,6 +5,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
+	<!--
 	<http pattern="/login" security="none" />
 	<http pattern="/register" security="none" />
 	<http pattern="/doRegister" security="none" />
@@ -24,54 +25,6 @@
 
 	<authentication-manager alias="customAuthenticationManager">
 		<authentication-provider user-service-ref="customUserDetailService">
-			<!-- password-encoder hash="md5" / -->
-		</authentication-provider>
-	</authentication-manager>
-	
-	<beans:bean id="customUserDetailService" class="web.framework.sec.CustomUserDetailService" />	
-	
-	<beans:bean id="customSecurityMetadataSource" class="web.framework.sec.CustomSecurityMetadataSource" />
-	
-    <beans:bean id="customAccessDecisionManager" class="web.framework.sec.CustomAccessDecisionManager" />
-
-	<beans:bean id="customSecurityInterceptor" class="web.framework.sec.CustomSecurityInterceptor">
-		<beans:property name="authenticationManager"  ref="customAuthenticationManager" />
-		<beans:property name="accessDecisionManager"  ref="customAccessDecisionManager" />
-		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource" />
-	</beans:bean>	
-	
-	<!-- 
-	<http pattern="/"             security="none" />
-    <http pattern="/index.jsp"    security="none" />
-    <http pattern="/login.jsp"    security="none" />
-    <http pattern="/login**"      security="none" />
-	<http pattern="/allow.jsp"    security="none" />
-	<http pattern="/regis.jsp"    security="none" />
-	<http pattern="/error.jsp"    security="none" />
-	<http pattern="/favicon.ico"  security="none" />
-	<http pattern="/resources/**" security="none" />
-	
-    <http auto-config="true" use-expressions="true">
-		<intercept-url pattern="/user/**"  access="hasRole('ROLE_USER')" />
-		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
-		<form-login 
-			login-page="/login.jsp" 
-			login-processing-url="/login"
-			username-parameter="username"
-			password-parameter="password" 
-			authentication-failure-url="/login.jsp?error=true" 
-			always-use-default-target="true" 
-			default-target-url="/index" />
-		<logout logout-success-url="/index.jsp" />
-		<access-denied-handler error-page="/allow.jsp" />
-		<session-management></session-management>
-		<remember-me />
-		<csrf disabled="true"/>
-		<custom-filter ref="customSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />  
-    </http>  
-
-	<authentication-manager alias="customAuthenticationManager">
-		<authentication-provider user-service-ref="customUserDetailService">
 			<password-encoder hash="md5" />
 		</authentication-provider>
 	</authentication-manager>
@@ -86,6 +39,87 @@
 		<beans:property name="authenticationManager"  ref="customAuthenticationManager" />
 		<beans:property name="accessDecisionManager"  ref="customAccessDecisionManager" />
 		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource" />
-	</beans:bean>	
--->
+	</beans:bean>
+	-->
+
+	<!-- CAS -->
+	<http pattern="/register" security="none"/>
+	<http pattern="/doRegister" security="none"/>
+
+	<http auto-config="true" entry-point-ref="casAuthenticationEntryPoint">
+		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<custom-filter ref="logoutFilter" before="LOGOUT_FILTER"/>
+		<custom-filter ref="singleSignOutFilter" before="CAS_FILTER"/>
+		<custom-filter ref="casAuthenticationFilter" position="CAS_FILTER"/>
+		<custom-filter ref="customSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
+	</http>
+
+	<!--
+    loginUrl 指定 CAS Server 上登录认证地址:${cas.server}/login}
+    -->
+	<beans:bean id="casAuthenticationEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+		<beans:property name="loginUrl" value="${cas.server}/login"/>
+		<beans:property name="serviceProperties" ref="serviceProperties"/>
+	</beans:bean>
+
+	<!--
+    service 指定 CAS Service 认证完用户名、密码后回来访问 CAS Client 的地址
+    sendRenew 如果设置成 true 表示就算客服端已经存在票据，也要到 CAS Sverver 重新登录
+    -->
+	<beans:bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+		<beans:property name="service" value="${cas.client}/login/cas"/>
+		<beans:property name="sendRenew" value="false"/>
+	</beans:bean>
+
+	<!-- 注销服务器端 -->
+	<beans:bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+		<beans:constructor-arg value="${cas.server}/logout"/>
+		<beans:constructor-arg>
+			<beans:bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+		</beans:constructor-arg>
+		<beans:property name="filterProcessesUrl" value="/logout/cas"/>
+	</beans:bean>
+
+	<!-- 注销客户端 -->
+	<beans:bean id="singleSignOutFilter" class="org.jasig.cas.client.session.SingleSignOutFilter"/>
+
+	<beans:bean id="casAuthenticationFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
+		<beans:property name="authenticationManager" ref="customAuthenticationManager"/>
+	</beans:bean>
+
+	<authentication-manager alias="customAuthenticationManager">
+		<authentication-provider ref="casAuthenticationProvider"/>
+	</authentication-manager>
+
+	<beans:bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+		<beans:property name="authenticationUserDetailsService">
+			<beans:bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+				<beans:constructor-arg ref="customUserDetailService"/>
+			</beans:bean>
+		</beans:property>
+		<beans:property name="serviceProperties" ref="serviceProperties"/>
+		<beans:property name="ticketValidator">
+			<beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+				<beans:constructor-arg index="0" value="${cas.server}"/>
+			</beans:bean>
+		</beans:property>
+		<beans:property name="key" value="an_id_for_this_auth_provider_only"/>
+	</beans:bean>
+
+	<beans:bean id="customUserDetailService" class="web.framework.sec.CustomUserDetailService"/>
+
+	<beans:bean id="customSecurityMetadataSource" class="web.framework.sec.CustomSecurityMetadataSource"/>
+
+	<beans:bean id="customAccessDecisionManager" class="web.framework.sec.CustomAccessDecisionManager"/>
+
+	<beans:bean id="customSecurityInterceptor" class="web.framework.sec.CustomSecurityInterceptor">
+		<!-- 用户拥有的权限 -->
+		<beans:property name="authenticationManager" ref="customAuthenticationManager"/>
+		<!-- 用户拥有的资源 -->
+		<beans:property name="accessDecisionManager" ref="customAccessDecisionManager"/>
+		<!-- 资源对应的角色 -->
+		<beans:property name="securityMetadataSource" ref="customSecurityMetadataSource"/>
+	</beans:bean>
+
 </beans:beans>

@@ -136,6 +136,19 @@
     		<artifactId>spring-security-taglibs</artifactId>
     		<version>${version.security}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-cas</artifactId>
+			<version>${version.security}</version>
+		</dependency>
+
+		<!-- cas -->
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>3.4.1</version>
+		</dependency>
+
 		
 		<!-- aspectj -->
 		<dependency>
@@ -210,7 +223,7 @@
 		<module>webapp</module>
 		<module>user</module>
 		<module>util</module>
-    <module>sso</module>
-  </modules>
+		<module>cas</module>
+	</modules>
 
 </project>

@@ -32,7 +32,7 @@
 			<groupId>web</groupId>
 			<artifactId>user</artifactId>
 			<version>${project.version}</version>
-			<scope>runtime</scope>
+			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

@@ -10,10 +10,10 @@
 	</parent>
 	
 	<groupId>web</groupId>
-	<artifactId>sso</artifactId>
+	<artifactId>cas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>sso Maven Webapp</name>
+	<name>cas</name>
 	<url>http://maven.apache.org</url>
 	
 	<dependencies>
@@ -26,7 +26,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>sso</finalName>
+		<finalName>cas</finalName>
 	</build>
 	
 </project>
