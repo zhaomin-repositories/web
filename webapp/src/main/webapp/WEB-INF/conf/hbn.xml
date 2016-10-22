@@ -48,7 +48,9 @@
 		</property>
 		<property name="packagesToScan">
 			<list>
+				<!--
 				<value>user.dvo</value>
+				-->
 			</list>
 		</property>  
 	</bean>

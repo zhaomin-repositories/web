@@ -47,6 +47,8 @@
 	-->
 
 	<!-- CAS -->
+	<http pattern="/login" security="none" />
+	<http pattern="/login/cas" security="none" />
 	<http pattern="/register" security="none"/>
 	<http pattern="/doRegister" security="none"/>
 
@@ -106,10 +108,14 @@
 		<beans:property name="ticketValidator">
 			<beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
 				<beans:constructor-arg index="0" value="${cas.server}"/>
+				<beans:property name="proxyCallbackUrl" value="${cas.client}/login/cas/proxyreceptor"/>
+				<beans:property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorageImpl"/>
 			</beans:bean>
 		</beans:property>
 		<beans:property name="key" value="an_id_for_this_auth_provider_only"/>
 	</beans:bean>
+
+	<beans:bean id="proxyGrantingTicketStorageImpl" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
 
 	<beans:bean id="customUserDetailService" class="web.framework.sec.CustomUserDetailService"/>
 
