@@ -14,6 +14,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- version -->
 
@@ -28,6 +29,8 @@
 		<version.hibernate>4.3.11.Final</version.hibernate>
 		<version.log4j>1.2.17</version.log4j>
 		<version.commons-logging>1.2</version.commons-logging>
+		<cxf.version>3.1.8</cxf.version>
+
 	</properties>
 
 	<dependencyManagement>
@@ -199,6 +202,18 @@
 			<version>6.0.4</version>
 		</dependency>
 
+		<!-- CXF Dependencies -->
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-core</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>${cxf.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -227,7 +242,6 @@
 	</modules>
 
 	<repositories>
-
 		<repository>
 			<id>alimaven</id>
 			<name>aliyun maven</name>
@@ -238,163 +252,6 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
-
-		<repository>
-			<id>CN</id>
-			<name>OSChina Central</name>
-			<url>http://maven.oschina.net/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>repo2</id>
-			<name>Human Readable Name for this repository.</name>
-			<url>http://repo2.maven.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>net-cn</id>
-			<name>Human Readable Name for this repository.</name>
-			<url>http://maven.net.cn/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>ui</id>
-			<name>Human Readable Name for this repository.</name>
-			<url>http://uk.maven.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>ibiblio</id>
-			<name>Human Readable Name for this repository.</name>
-			<url>http://repositorys.ibiblio.org/pub/repositorys/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>jboss-public-repository-group</id>
-			<name>JBoss Public Repository Group</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>JBossJBPM</id>
-			<name>JBossJBPM Repository</name>
-			<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>antelink</id>
-			<name>antelink Repository</name>
-			<url>http://maven.antelink.com/content/repositories/central/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>openkoala</id>
-			<name>openkoala Repository</name>
-			<url>http://nexus.openkoala.org/nexus/content/groups/Koala-release/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>tmatesoft</id>
-			<name>tmatesoft Repository</name>
-			<url>http://maven.tmatesoft.com/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>mavensync</id>
-			<name>mavensync Repository</name>
-			<url>http://mavensync.zkoss.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>maven-net-cn</id>
-			<name>Maven China Mirror</name>
-			<url>http://maven.net.cn/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>jasig-repository</id>
-			<name>Jasig Maven2 Repository</name>
-			<url>http://developer.ja-sig.org/maven2</url>
-		</repository>
-
-		<repository>
-			<id>jboss</id>
-			<name>JBoss Repository</name>
-			<layout>default</layout>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
 		</repository>
 	</repositories>
 
@@ -410,160 +267,6 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</pluginRepository>
-
-		<pluginRepository>
-			<id>CN</id>
-			<name>OSChina Central</name>
-			<url>http://maven.oschina.net/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>repo2</id>
-			<name>Human Readable Name for this pluginRepository.</name>
-			<url>http://repo2.maven.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>net-cn</id>
-			<name>Human Readable Name for this pluginRepository.</name>
-			<url>http://maven.net.cn/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>ui</id>
-			<name>Human Readable Name for this pluginRepository.</name>
-			<url>http://uk.maven.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>ibiblio</id>
-			<name>Human Readable Name for this pluginRepository.</name>
-			<url>http://pluginRepositorys.ibiblio.org/pub/pluginRepositorys/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>jboss-public-pluginRepository-group</id>
-			<name>JBoss Public pluginRepository Group</name>
-			<url>http://pluginRepository.jboss.org/nexus/content/groups/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>JBossJBPM</id>
-			<name>JBossJBPM pluginRepository</name>
-			<url>https://pluginRepository.jboss.org/nexus/content/repositories/releases/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>antelink</id>
-			<name>antelink pluginRepository</name>
-			<url>http://maven.antelink.com/content/repositories/central/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>openkoala</id>
-			<name>openkoala pluginRepository</name>
-			<url>http://nexus.openkoala.org/nexus/content/groups/Koala-release/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>tmatesoft</id>
-			<name>tmatesoft pluginRepository</name>
-			<url>http://maven.tmatesoft.com/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>mavensync</id>
-			<name>mavensync pluginRepository</name>
-			<url>http://mavensync.zkoss.org/maven2/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>maven-net-cn</id>
-			<name>Maven China Mirror</name>
-			<url>http://maven.net.cn/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-
-		<pluginRepository>
-			<id>mojo-snapshot</id>
-			<name>Codehause Mojo Snapshot Repository</name>
-			<url>https://nexus.codehaus.org/content/repositories/codehaus-snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-
 	</pluginRepositories>
 
 </project>

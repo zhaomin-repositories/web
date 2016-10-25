@@ -35,7 +35,8 @@
             WEB-INF/conf/dao.xml,
             WEB-INF/conf/hbn.xml,
             WEB-INF/conf/mgo.xml,
-            WEB-INF/conf/sec.xml
+            WEB-INF/conf/sec.xml,
+            WEB-INF/conf/ws.xml
         </param-value>
     </context-param>
 
