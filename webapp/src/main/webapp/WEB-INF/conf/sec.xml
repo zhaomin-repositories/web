@@ -46,15 +46,17 @@
 	</beans:bean>
 	-->
 
-	<!-- CAS -->
+	<!-- CAS
 	<http pattern="/login" security="none" />
-	<http pattern="/login/cas" security="none" />
+	<http pattern="/login/cas**" security="none" />
 	<http pattern="/register" security="none"/>
 	<http pattern="/doRegister" security="none"/>
+	-->
 
 	<http auto-config="true" entry-point-ref="casAuthenticationEntryPoint">
 		<intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+		<csrf disabled="true" />
 		<custom-filter ref="logoutFilter" before="LOGOUT_FILTER"/>
 		<custom-filter ref="singleSignOutFilter" before="CAS_FILTER"/>
 		<custom-filter ref="casAuthenticationFilter" position="CAS_FILTER"/>
@@ -108,14 +110,19 @@
 		<beans:property name="ticketValidator">
 			<beans:bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
 				<beans:constructor-arg index="0" value="${cas.server}"/>
+				<beans:property name="encoding" value="UTF-8"/>
+				<!--
 				<beans:property name="proxyCallbackUrl" value="${cas.client}/login/cas/proxyreceptor"/>
 				<beans:property name="proxyGrantingTicketStorage" ref="proxyGrantingTicketStorageImpl"/>
+				-->
 			</beans:bean>
 		</beans:property>
 		<beans:property name="key" value="an_id_for_this_auth_provider_only"/>
 	</beans:bean>
 
+	<!--
 	<beans:bean id="proxyGrantingTicketStorageImpl" class="org.jasig.cas.client.proxy.ProxyGrantingTicketStorageImpl"/>
+	-->
 
 	<beans:bean id="customUserDetailService" class="web.framework.sec.CustomUserDetailService"/>
 

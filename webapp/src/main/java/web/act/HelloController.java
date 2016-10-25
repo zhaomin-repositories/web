@@ -11,4 +11,14 @@ public class HelloController {
 	public String welcome(){
 		return "index";
 	}
+
+	@RequestMapping(value={"/admin"},method=RequestMethod.GET)
+	public String admin(){
+		return "admin";
+	}
+
+	@RequestMapping(value={"/admin/test"},method=RequestMethod.GET)
+	public String test(){
+		return "test";
+	}
 }
